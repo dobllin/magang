@@ -1,0 +1,268 @@
+@import 'tailwindcss';
+
+@theme {
+    --font-sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'DM Serif Display', ui-serif, Georgia, serif;
+
+    --color-cream: #f5f0e1;
+    --color-cream-dark: #e8dfc8;
+    --color-navy: #1a2a3a;
+    --color-navy-light: #2a3f55;
+    --color-kunyit: #e8a838;
+    --color-kunyit-dark: #c88820;
+    --color-terracotta: #c8562f;
+    --color-sage: #7a8f6b;
+}
+
+/* ============================================ */
+/* BASE                                         */
+/* ============================================ */
+
+body {
+    font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    background: var(--color-cream);
+    color: var(--color-navy);
+}
+
+.font-serif { font-family: 'DM Serif Display', Georgia, serif; }
+
+/* Scrollbar retro */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--color-cream-dark); }
+::-webkit-scrollbar-thumb { background: var(--color-navy); border: 2px solid var(--color-cream-dark); }
+
+::selection { background: var(--color-kunyit); color: var(--color-navy); }
+
+/* ============================================ */
+/* LINE CLAMP                                   */
+/* ============================================ */
+
+.line-clamp-2 {
+    display: -webkit-box; -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden;
+}
+.line-clamp-3 {
+    display: -webkit-box; -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical; overflow: hidden;
+}
+
+/* ============================================ */
+/* MORPHING BLOBS (lava lamp effect)            */
+/* ============================================ */
+
+@keyframes blobMorph1 {
+    0%, 100% { border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%; transform: translate(0, 0) rotate(0deg); }
+    33% { border-radius: 37% 63% 51% 49% / 37% 65% 35% 63%; transform: translate(30px, -20px) rotate(120deg); }
+    66% { border-radius: 45% 55% 42% 58% / 62% 43% 57% 38%; transform: translate(-20px, 30px) rotate(240deg); }
+}
+
+@keyframes blobMorph2 {
+    0%, 100% { border-radius: 45% 55% 65% 35% / 55% 45% 55% 45%; transform: translate(0, 0) scale(1); }
+    50% { border-radius: 65% 35% 35% 65% / 45% 55% 45% 55%; transform: translate(-30px, 20px) scale(1.1); }
+}
+
+@keyframes blobMorph3 {
+    0%, 100% { border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%; transform: rotate(0deg); }
+    50% { border-radius: 60% 40% 40% 60% / 40% 60% 40% 60%; transform: rotate(180deg); }
+}
+
+.blob-1 { animation: blobMorph1 20s ease-in-out infinite; }
+.blob-2 { animation: blobMorph2 15s ease-in-out infinite; }
+.blob-3 { animation: blobMorph3 25s ease-in-out infinite; }
+
+/* ============================================ */
+/* MARQUEE (text jalan)                         */
+/* ============================================ */
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+    animation: marquee 30s linear infinite;
+}
+
+.marquee-container {
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* ============================================ */
+/* TYPEWRITER                                   */
+/* ============================================ */
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.cursor-blink::after {
+    content: '|';
+    animation: blink 1s step-end infinite;
+    color: var(--color-kunyit);
+    margin-left: 4px;
+}
+
+/* ============================================ */
+/* WAVE SVG                                     */
+/* ============================================ */
+
+@keyframes waveMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.animate-wave {
+    animation: waveMove 15s linear infinite;
+}
+
+/* ============================================ */
+/* FLOATING DOTS                                */
+/* ============================================ */
+
+@keyframes float1 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(20px, -30px); }
+}
+@keyframes float2 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-25px, 20px); }
+}
+@keyframes float3 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(15px, 25px); }
+}
+
+.float-1 { animation: float1 6s ease-in-out infinite; }
+.float-2 { animation: float2 8s ease-in-out infinite; }
+.float-3 { animation: float3 7s ease-in-out infinite; }
+
+/* ============================================ */
+/* SPIN SLOW (untuk decorative elements)        */
+/* ============================================ */
+
+@keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+.spin-slow { animation: spinSlow 30s linear infinite; }
+.spin-reverse { animation: spinSlow 25s linear infinite reverse; }
+
+/* ============================================ */
+/* FADE IN UP                                   */
+/* ============================================ */
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+.delay-100 { animation-delay: 0.1s; opacity: 0; }
+.delay-200 { animation-delay: 0.2s; opacity: 0; }
+.delay-300 { animation-delay: 0.3s; opacity: 0; }
+.delay-400 { animation-delay: 0.4s; opacity: 0; }
+
+/* ============================================ */
+/* CARD RETRO                                   */
+/* ============================================ */
+
+.card-retro {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid var(--color-navy);
+    background: white;
+    box-shadow: 6px 6px 0 var(--color-navy);
+}
+
+.card-retro:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 9px 9px 0 var(--color-kunyit);
+}
+
+/* ============================================ */
+/* BUTTON RETRO (brutalism style)               */
+/* ============================================ */
+
+.btn-retro {
+    display: inline-block;
+    background: var(--color-kunyit);
+    color: var(--color-navy);
+    padding: 1rem 2rem;
+    font-weight: 700;
+    border: 3px solid var(--color-navy);
+    box-shadow: 5px 5px 0 var(--color-navy);
+    transition: all 0.2s;
+}
+.btn-retro:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 var(--color-navy);
+}
+.btn-retro:active {
+    transform: translate(3px, 3px);
+    box-shadow: 2px 2px 0 var(--color-navy);
+}
+
+.btn-retro-outline {
+    display: inline-block;
+    background: transparent;
+    color: var(--color-cream);
+    padding: 1rem 2rem;
+    font-weight: 700;
+    border: 3px solid var(--color-cream);
+    transition: all 0.2s;
+}
+.btn-retro-outline:hover {
+    background: var(--color-cream);
+    color: var(--color-navy);
+}
+
+/* ============================================ */
+/* GRID DOTS PATTERN (retro modernist)          */
+/* ============================================ */
+
+.bg-dots-navy {
+    background-image: radial-gradient(circle, var(--color-navy) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+}
+.bg-dots-cream {
+    background-image: radial-gradient(circle, rgba(245, 240, 225, 0.3) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+}
+
+/* ============================================ */
+/* DIAGONAL STRIPES                             */
+/* ============================================ */
+
+.bg-stripes-navy {
+    background: repeating-linear-gradient(
+        45deg,
+        var(--color-navy),
+        var(--color-navy) 2px,
+        transparent 2px,
+        transparent 12px
+    );
+}
+
+/* ============================================ */
+/* COUNTER (angka naik)                         */
+/* ============================================ */
+
+.counter {
+    font-variant-numeric: tabular-nums;
+}
+
+/* ============================================ */
+/* TICKER/BADGE                                 */
+/* ============================================ */
+
+.badge-retro {
+    display: inline-block;
+    background: var(--color-navy);
+    color: var(--color-cream);
+    padding: 0.25rem 0.75rem;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
