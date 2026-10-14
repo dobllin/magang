@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Materi extends Model
 {
@@ -59,7 +60,35 @@ class Materi extends Model
         return $this->hasMany(Gambar::class, 'id_materi');
     }
 
+    // === SCOPES ===
+    public function scopeTerbit($query)
+    {
+        return $query->where('status', 'published');
+    }
+
     // === HELPER METHODS ===
+
+    /**
+     * Bikin slug dari judul yang belum dipakai materi lain.
+     * Kalau "dasar-k3" udah ada, hasilnya "dasar-k3-2", dst.
+     */
+    public static function slugUnik(string $judul, $abaikanId = null): string
+    {
+        $dasar = Str::slug($judul) ?: 'materi';
+        $slug  = $dasar;
+        $n     = 2;
+
+        while (
+            static::where('slug', $slug)
+                ->when($abaikanId, fn ($q) => $q->where('id', '!=', $abaikanId))
+                ->exists()
+        ) {
+            $slug = $dasar . '-' . $n++;
+        }
+
+        return $slug;
+    }
+
     public function getDurationFormatAttribute()
     {
         $hours = floor($this->duration_minutes / 60);

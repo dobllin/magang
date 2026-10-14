@@ -1,5 +1,4 @@
 <?php
-// TIMPA isi file: app/Http/Controllers/Auth/AdminAuthController.php
 
 namespace App\Http\Controllers\Auth;
 
@@ -27,6 +26,17 @@ class AdminAuthController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
+
+        // Akun yang dinonaktifkan admin nggak boleh masuk.
+        if (Auth::user()->status === 'nonaktif') {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return back()->withErrors([
+                'email' => 'Akun ini sedang dinonaktifkan. Hubungi admin.',
+            ])->onlyInput('email');
+        }
 
             if (Auth::user()->role !== 'admin') {
                 Auth::logout();

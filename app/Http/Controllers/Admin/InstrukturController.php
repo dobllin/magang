@@ -1,11 +1,11 @@
 <?php
-// Simpan file ini di: app/Http/Controllers/Admin/InstrukturController.php
 
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class InstrukturController extends Controller
 {
@@ -49,14 +49,25 @@ class InstrukturController extends Controller
             abort(404);
         }
 
-        $users = DB::table('users')->where('role', 'instruktur')->get(['id', 'nama_lengkap']);
+        // User yang sekarang + user instruktur lain yang belum punya profil
+        $users = DB::table('users')
+            ->where('role', 'instruktur')
+            ->where(function ($q) use ($instruktur) {
+                $q->where('id', $instruktur->id_user)
+                  ->orWhereNotIn('id', DB::table('instruktur')->pluck('id_user'));
+            })
+            ->get(['id', 'nama_lengkap']);
 
         return view('admin.instruktur.form', compact('instruktur', 'users'));
     }
 
     public function update(Request $request, $id)
     {
-        $data = $this->validateData($request);
+        if (!DB::table('instruktur')->where('id', $id)->exists()) {
+            abort(404);
+        }
+
+        $data = $this->validateData($request, $id);
         $data['updated_at'] = now();
 
         DB::table('instruktur')->where('id', $id)->update($data);
@@ -66,18 +77,33 @@ class InstrukturController extends Controller
 
     public function destroy($id)
     {
+        $punyaMateri = DB::table('materi')->where('id_instruktur', $id)->exists();
+        if ($punyaMateri) {
+            return back()->with('error', 'Instruktur ini masih punya materi. Pindahkan atau hapus materinya dulu.');
+        }
+
         DB::table('instruktur')->where('id', $id)->delete();
         return back()->with('success', 'Instruktur berhasil dihapus.');
     }
 
-    private function validateData(Request $request): array
+    private function validateData(Request $request, $abaikanId = null): array
     {
         return $request->validate([
-            'id_user'       => ['required', 'integer'],
+            // Harus user ber-role instruktur, dan satu user cuma boleh
+            // punya satu profil instruktur.
+            'id_user'       => [
+                'required',
+                'integer',
+                Rule::exists('users', 'id')->where('role', 'instruktur'),
+                Rule::unique('instruktur', 'id_user')->ignore($abaikanId),
+            ],
             'spesialisasi'  => ['required', 'string', 'max:255'],
             'pengalaman'    => ['required', 'string', 'max:100'],
             'sertifikasi'   => ['nullable', 'string', 'max:255'],
             'jabatan'       => ['required', 'string', 'max:100'],
+        ], [
+            'id_user.exists' => 'User itu nggak ada atau role-nya bukan instruktur.',
+            'id_user.unique' => 'User itu sudah punya profil instruktur.',
         ]);
     }
 }

@@ -1,4 +1,3 @@
-<!-- Simpan file ini di: resources/views/auth/login.blade.php -->
 <!DOCTYPE html>
 <html lang="id">
 <head>

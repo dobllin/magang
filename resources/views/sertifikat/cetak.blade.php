@@ -134,7 +134,7 @@
 
     <div class="alat">
         <button class="tombol" onclick="window.print()">Cetak / Simpan PDF</button>
-        <a class="tombol tombol-terang" href="{{ route('instruktur.sertifikat.index') }}">Kembali</a>
+        <a class="tombol tombol-terang" href="{{ $kembali }}">Kembali</a>
     </div>
 
     <div class="lembar">

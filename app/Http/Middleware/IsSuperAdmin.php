@@ -1,5 +1,4 @@
 <?php
-// TIMPA isi file: app/Http/Middleware/IsSuperAdmin.php
 
 namespace App\Http\Middleware;
 

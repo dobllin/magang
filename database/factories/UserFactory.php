@@ -24,13 +24,34 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $nama = fake()->name();
+
         return [
-            'name' => fake()->name(),
+            'name' => $nama,
+            'nama_lengkap' => $nama,
+            'role' => 'peserta',
+            'status' => 'aktif',
+            'no_hp' => fake()->numerify('08##########'),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
+    }
+
+    public function admin(): static
+    {
+        return $this->state(fn () => ['role' => 'admin']);
+    }
+
+    public function instruktur(): static
+    {
+        return $this->state(fn () => ['role' => 'instruktur']);
+    }
+
+    public function nonaktif(): static
+    {
+        return $this->state(fn () => ['status' => 'nonaktif']);
     }
 
     /**

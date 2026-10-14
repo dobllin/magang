@@ -10,25 +10,23 @@ use Symfony\Component\HttpFoundation\Response;
 class IsInstruktur
 {
     /**
-     * Handle an incoming request.
+     * Area instruktur cuma buat user ber-role instruktur yang udah
+     * punya profil. Admin punya panelnya sendiri di /admin, jadi nggak
+     * ikut masuk ke sini (semua halaman instruktur butuh profil instruktur).
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Cek udah login belum
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Silakan login dulu.');
         }
 
         $user = Auth::user();
 
-        // Cek role: harus instruktur atau admin
-        // (admin boleh akses area instruktur juga buat monitoring)
-        if (!in_array($user->role, ['instruktur', 'admin'])) {
+        if ($user->role !== 'instruktur') {
             abort(403, 'Halaman ini khusus instruktur.');
         }
 
-        // Cek profil instruktur udah dibuat (khusus role instruktur)
-        if ($user->role === 'instruktur' && !$user->instruktur) {
+        if (!$user->instruktur) {
             abort(403, 'Profil instruktur belum dibuat. Hubungi admin.');
         }
 

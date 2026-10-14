@@ -1,4 +1,3 @@
-<!-- Simpan file ini di: resources/views/admin/layouts/app.blade.php (TIMPA yang lama) -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -46,7 +45,10 @@
         <span class="fw-bold text-dark">PPKPI Admin</span>
     </a>
     <div class="d-flex gap-4 align-items-center">
-        <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
+        <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a>
+        <a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}"><i class="bi bi-people me-1"></i>Users</a>
+        <a href="{{ route('admin.instruktur.index') }}" class="nav-link {{ request()->routeIs('admin.instruktur.*') ? 'active' : '' }}"><i class="bi bi-person-badge me-1"></i>Instruktur</a>
+        <a href="{{ route('admin.materi.index') }}" class="nav-link {{ request()->routeIs('admin.materi.*') ? 'active' : '' }}"><i class="bi bi-journal-text me-1"></i>Materi</a>
     </div>
     <div class="d-flex align-items-center gap-3">
         @php
@@ -76,6 +78,9 @@
     <div class="p-4 px-5">
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
         @if ($errors->any())
             <div class="alert alert-danger">

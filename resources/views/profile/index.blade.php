@@ -1,4 +1,3 @@
-<!-- Simpan file ini di: resources/views/profile/index.blade.php -->
 <!DOCTYPE html>
 <html lang="id">
 <head>

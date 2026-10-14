@@ -1,5 +1,4 @@
 <?php
-// Simpan file ini di: app/Http/Controllers/Auth/RegisteredUserController.php
 
 namespace App\Http\Controllers\Auth;
 
@@ -46,7 +45,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('profile.index')->with('success', 'Pendaftaran berhasil! Selamat datang, ' . $user->nama_lengkap . '.');
+        return redirect()->route('kelas.index')->with('success', 'Pendaftaran berhasil! Selamat datang, ' . $user->nama_lengkap . '.');
     }
 
     // ===== LOGIN =====
@@ -56,26 +55,37 @@ class RegisteredUserController extends Controller
     }
 
     public function login(Request $request)
-{
-    $credentials = $request->validate([
-        'email'    => ['required', 'email'],
-        'password' => ['required'],
-    ]);
+    {
+        $credentials = $request->validate([
+            'email'    => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-    if (Auth::attempt($credentials, $request->boolean('remember'))) {
-        $request->session()->regenerate();
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
 
-        return match (Auth::user()->role) {
-            'admin'      => redirect()->intended(route('admin.dashboard')),
-            'instruktur' => redirect()->intended(route('instruktur.dashboard')),
-            default      => redirect()->intended(route('profile.index')),
-        };
+            // Akun yang dinonaktifkan admin nggak boleh masuk.
+            if (Auth::user()->status === 'nonaktif') {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return back()->withErrors([
+                    'email' => 'Akun ini sedang dinonaktifkan. Hubungi admin.',
+                ])->onlyInput('email');
+            }
+
+            return match (Auth::user()->role) {
+                'admin'      => redirect()->intended(route('admin.dashboard')),
+                'instruktur' => redirect()->intended(route('instruktur.dashboard')),
+                default      => redirect()->intended(route('kelas.index')),
+            };
+        }
+
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ])->onlyInput('email');
     }
-
-    return back()->withErrors([
-        'email' => 'Email atau password salah.',
-    ])->onlyInput('email');
-}
 
     // ===== LOGOUT =====
     public function logout(Request $request)

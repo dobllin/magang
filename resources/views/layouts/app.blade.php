@@ -34,7 +34,7 @@
                 <!-- Menu -->
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="/" class="font-semibold hover:underline decoration-2 underline-offset-4" style="color: #1a2a3a;">Beranda</a>
-                    <a href="#courses" class="font-semibold hover:underline decoration-2 underline-offset-4" style="color: #1a2a3a;">Materi</a>
+                    <a href="{{ route('landing') }}#courses" class="font-semibold hover:underline decoration-2 underline-offset-4" style="color: #1a2a3a;">Materi</a>
                     <a href="#about" class="font-semibold hover:underline decoration-2 underline-offset-4" style="color: #1a2a3a;">Tentang</a>
                 </div>
 
@@ -45,6 +45,8 @@
                             <a href="{{ route('admin.dashboard') }}" class="font-semibold" style="color: #c8562f;">Dashboard Admin</a>
                         @elseif (auth()->user()->role === 'instruktur')
                             <a href="{{ route('instruktur.dashboard') }}" class="font-semibold" style="color: #c8562f;">Dashboard Instruktur</a>
+                        @else
+                            <a href="{{ route('kelas.index') }}" class="font-semibold" style="color: #c8562f;">Kelas Saya</a>
                         @endif
 
                         <a href="{{ route('profile.index') }}" class="font-semibold" style="color: #1a2a3a;">{{ auth()->user()->nama_lengkap }}</a>
@@ -67,7 +69,7 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="border-t-4" style="background: #1a2a3a; color: #f5f0e1; border-color: #e8a838;">
+    <footer id="about" class="border-t-4" style="background: #1a2a3a; color: #f5f0e1; border-color: #e8a838;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div class="md:col-span-2">
@@ -83,8 +85,8 @@
                     <h4 class="badge-retro mb-4" style="background: #e8a838; color: #1a2a3a;">Menu</h4>
                     <ul class="space-y-3 text-sm">
                         <li><a href="/" class="hover:text-kunyit" style="opacity: 0.8;">→ Beranda</a></li>
-                        <li><a href="#" style="opacity: 0.8;">→ Materi</a></li>
-                        <li><a href="#" style="opacity: 0.8;">→ Tentang</a></li>
+                        <li><a href="{{ route('landing') }}#courses" style="opacity: 0.8;">→ Materi</a></li>
+                        <li><a href="#about" style="opacity: 0.8;">→ Tentang</a></li>
                     </ul>
                 </div>
                 <div>

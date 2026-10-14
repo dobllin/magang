@@ -1,4 +1,3 @@
-{{-- Simpan file ini di: resources/views/admin/users/index.blade.php --}}
 @extends('admin.layouts.app')
 
 @section('title', 'Kelola Users')
@@ -18,6 +17,7 @@
                     <th>Email</th>
                     <th>No HP</th>
                     <th>Role</th>
+                    <th>Status</th>
                     <th class="text-end">Aksi</th>
                 </tr>
             </thead>
@@ -30,6 +30,9 @@
                         <td>
                             <span class="badge bg-{{ $u->role == 'admin' ? 'danger' : ($u->role == 'instruktur' ? 'success' : 'primary') }}">{{ $u->role }}</span>
                         </td>
+                        <td>
+                            <span class="badge bg-{{ ($u->status ?? 'aktif') == 'aktif' ? 'success' : 'secondary' }}">{{ $u->status ?? 'aktif' }}</span>
+                        </td>
                         <td class="text-end">
                             <a href="{{ route('admin.users.edit', $u->id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
                             <form action="{{ route('admin.users.destroy', $u->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin mau hapus user ini?')">
@@ -41,7 +44,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="text-center text-muted py-4">Belum ada data user.</td>
+                        <td colspan="6" class="text-center text-muted py-4">Belum ada data user.</td>
                     </tr>
                 @endforelse
             </tbody>

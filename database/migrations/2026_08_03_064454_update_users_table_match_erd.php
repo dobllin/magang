@@ -1,9 +1,4 @@
 <?php
-// Simpan file ini di: database/migrations/
-// Generate dulu file kosongnya lewat command ini di terminal:
-//   php artisan make:migration update_users_table_match_erd --table=users
-// Nanti muncul file baru dengan nama otomatis (ada timestamp-nya).
-// Buka file itu, HAPUS semua isinya, lalu paste isi di bawah ini menggantikan isinya.
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

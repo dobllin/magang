@@ -1,4 +1,3 @@
-{{-- Simpan file ini di: resources/views/admin/users/form.blade.php --}}
 @extends('admin.layouts.app')
 
 @section('title', $user ? 'Edit User' : 'Tambah User')
@@ -26,6 +25,14 @@
             <select name="role" class="form-select" required>
                 @foreach (['peserta', 'instruktur', 'admin'] as $r)
                     <option value="{{ $r }}" {{ (old('role', $user->role ?? '') == $r) ? 'selected' : '' }}>{{ ucfirst($r) }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select name="status" class="form-select" required>
+                @foreach (['aktif', 'nonaktif'] as $st)
+                    <option value="{{ $st }}" {{ (old('status', $user->status ?? 'aktif') == $st) ? 'selected' : '' }}>{{ ucfirst($st) }}</option>
                 @endforeach
             </select>
         </div>

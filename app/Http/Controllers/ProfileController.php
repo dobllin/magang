@@ -1,5 +1,4 @@
 <?php
-// Simpan file ini di: app/Http/Controllers/ProfileController.php
 
 namespace App\Http\Controllers;
 

@@ -1,4 +1,3 @@
-<!-- Simpan file ini di: resources/views/dashboard.blade.php (TIMPA yang lama) -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -88,7 +87,7 @@
     <div class="d-flex gap-4 align-items-center">
         <a href="{{ route('dashboard') }}" class="nav-link">Beranda</a>
         <a href="#materi-list" class="nav-link">Materi</a>
-        <a href="#" class="nav-link">Tentang</a>
+        <a href="{{ route('landing') }}#about" class="nav-link">Tentang</a>
     </div>
             <div class="d-flex align-items-center gap-3">
         @auth
@@ -96,6 +95,8 @@
                 <a href="{{ route('admin.dashboard') }}" class="nav-link fw-bold" style="color:#c8562f;">Dashboard Admin</a>
             @elseif (auth()->user()->role === 'instruktur')
                 <a href="{{ route('instruktur.dashboard') }}" class="nav-link fw-bold" style="color:#c8562f;">Dashboard Instruktur</a>
+            @else
+                <a href="{{ route('kelas.index') }}" class="nav-link fw-bold" style="color:#c8562f;">Kelas Saya</a>
             @endif
 
             <a href="{{ route('profile.index') }}" class="nav-link">{{ auth()->user()->nama_lengkap }}</a>
@@ -124,7 +125,7 @@
                 </p>
                 <div class="d-flex gap-3 mb-5">
                     @auth
-                        <a href="{{ route('profile.index') }}" class="btn btn-mulai">Mulai Belajar</a>
+                        <a href="{{ auth()->user()->role === 'peserta' ? route('kelas.index') : route('profile.index') }}" class="btn btn-mulai">Mulai Belajar</a>
                     @else
                         <a href="#materi-list" class="btn btn-mulai">Mulai Belajar</a>
                         <a href="{{ route('register') }}" class="btn btn-daftar-gratis">Daftar Gratis</a>
@@ -196,11 +197,9 @@
                                 <span><i class="bi bi-clock me-1"></i>{{ $item->duration_minutes }} menit</span>
                                 <span class="fw-bold text-primary">{{ $item->learning_points }} LP</span>
                             </div>
-                            @auth
-                                <a href="#" class="btn btn-daftar-nav btn-sm w-100 text-decoration-none">Mulai Belajar</a>
-                            @else
-                                <a href="{{ route('register') }}" class="btn btn-daftar-nav btn-sm w-100 text-decoration-none">Daftar untuk Belajar</a>
-                            @endauth
+                            <a href="{{ route('materi.show', $item->slug) }}" class="btn btn-daftar-nav btn-sm w-100 text-decoration-none">
+                                {{ auth()->check() ? 'Mulai Belajar' : 'Lihat Materi' }}
+                            </a>
                         </div>
                     </div>
                 </div>

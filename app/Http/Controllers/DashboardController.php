@@ -1,5 +1,4 @@
 <?php
-// Simpan file ini di: app/Http/Controllers/DashboardController.php (TIMPA yang lama)
 
 namespace App\Http\Controllers;
 
@@ -9,14 +8,16 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // Materi draft nggak ditampilkan ke publik.
         $materi = DB::table('materi')
+            ->where('status', 'published')
             ->orderBy('created_at', 'desc')
             ->get();
 
         $stats = [
-            'total_materi'   => DB::table('materi')->count(),
+            'total_materi'   => DB::table('materi')->where('status', 'published')->count(),
             'total_peserta'  => DB::table('users')->where('role', 'peserta')->count(),
-            'total_kategori' => DB::table('materi')->distinct('kategori')->count('kategori'),
+            'total_kategori' => DB::table('materi')->where('status', 'published')->distinct()->count('kategori'),
         ];
 
         return view('dashboard', compact('materi', 'stats'));

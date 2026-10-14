@@ -1,4 +1,3 @@
-{{-- Simpan file ini di: resources/views/admin/materi/form.blade.php --}}
 @extends('admin.layouts.app')
 
 @section('title', $materi ? 'Edit Materi' : 'Tambah Materi')
@@ -43,7 +42,7 @@
             <div class="col-md-3">
                 <label class="form-label">Jenis Materi</label>
                 <select name="jenis_materi" class="form-select" required>
-                    @foreach (['artikel', 'video', 'pdf', 'quiz'] as $jenis)
+                    @foreach ($pilihanJenis as $jenis)
                         <option value="{{ $jenis }}" {{ (old('jenis_materi', $materi->jenis_materi ?? '') == $jenis) ? 'selected' : '' }}>{{ ucfirst($jenis) }}</option>
                     @endforeach
                 </select>
@@ -68,7 +67,7 @@
             <div class="col-md-6">
                 <label class="form-label">Status</label>
                 <select name="status" class="form-select" required>
-                    @foreach (['published', 'draft'] as $st)
+                    @foreach ($pilihanStatus as $st)
                         <option value="{{ $st }}" {{ (old('status', $materi->status ?? '') == $st) ? 'selected' : '' }}>{{ ucfirst($st) }}</option>
                     @endforeach
                 </select>

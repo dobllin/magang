@@ -1,5 +1,4 @@
 <?php
-// Ganti isi file app/Models/User.php lu dengan ini (timpa semua isinya)
 
 namespace App\Models;
 

@@ -1,4 +1,3 @@
-{{-- Simpan file ini di: resources/views/admin/dashboard.blade.php (TIMPA yang lama) --}}
 @extends('admin.layouts.app')
 
 @section('title', 'Dashboard')

@@ -1,4 +1,3 @@
-{{-- Simpan file ini di: resources/views/admin/materi/index.blade.php --}}
 @extends('admin.layouts.app')
 
 @section('title', 'Kelola Materi')

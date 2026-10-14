@@ -24,7 +24,7 @@
                     <a href="#courses" class="bg-white text-blue-700 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
                         Mulai Belajar
                     </a>
-                    <a href="#" class="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-700 transition">
+                    <a href="{{ route('register') }}" class="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-700 transition">
                         Daftar Gratis
                     </a>
                 </div>
@@ -97,7 +97,7 @@
 
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             @foreach($kategoris as $kat)
-                <a href="#" class="group bg-gradient-to-br from-blue-50 to-indigo-100 hover:from-blue-100 hover:to-indigo-200 rounded-xl p-6 text-center transition transform hover:-translate-y-1">
+                <a href="#courses" class="group bg-gradient-to-br from-blue-50 to-indigo-100 hover:from-blue-100 hover:to-indigo-200 rounded-xl p-6 text-center transition transform hover:-translate-y-1">
                     <div class="w-12 h-12 bg-blue-600 rounded-lg mx-auto mb-3 flex items-center justify-center text-white font-bold text-xl">
                         {{ substr($kat, 0, 1) }}
                     </div>
@@ -116,7 +116,7 @@
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Materi Terbaru</h2>
                 <p class="text-gray-600">Materi pelatihan dari instruktur berpengalaman.</p>
             </div>
-            <a href="#" class="hidden md:block text-blue-600 hover:text-blue-800 font-semibold">Lihat Semua →</a>
+            <a href="{{ route('dashboard') }}#materi-list" class="hidden md:block text-blue-600 hover:text-blue-800 font-semibold">Lihat Semua →</a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -176,14 +176,14 @@
                         <div class="flex items-center justify-between mt-4">
                             <div class="flex items-center space-x-3">
                                 <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-xs">
-                                    {{ substr($materi->instruktur->user->nama_lengkap, 0, 1) }}
+                                    {{ substr($materi->instruktur?->user?->nama_lengkap ?? '?', 0, 1) }}
                                 </div>
                                 <div class="text-xs">
-                                    <div class="font-semibold text-gray-900">{{ $materi->instruktur->user->nama_lengkap }}</div>
-                                    <div class="text-gray-500">{{ $materi->instruktur->jabatan }}</div>
+                                    <div class="font-semibold text-gray-900">{{ $materi->instruktur?->user?->nama_lengkap ?? '—' }}</div>
+                                    <div class="text-gray-500">{{ $materi->instruktur?->jabatan }}</div>
                                 </div>
                             </div>
-                            <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold text-sm">Lihat →</a>
+                            <a href="{{ route('materi.show', $materi) }}" class="text-blue-600 hover:text-blue-800 font-semibold text-sm">Lihat →</a>
                         </div>
                     </div>
                 </div>
@@ -197,7 +197,7 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 class="text-3xl md:text-4xl font-bold mb-4">Siap Meningkatkan Kompetensi Anda?</h2>
         <p class="text-lg text-blue-100 mb-8">Bergabung sekarang dan mulai perjalanan pengembangan karir lu.</p>
-        <a href="#" class="inline-block bg-yellow-400 text-gray-900 px-8 py-4 rounded-lg font-bold hover:bg-yellow-300 transition">
+        <a href="{{ route('register') }}" class="inline-block bg-yellow-400 text-gray-900 px-8 py-4 rounded-lg font-bold hover:bg-yellow-300 transition">
             Daftar Sekarang - Gratis!
         </a>
     </div>

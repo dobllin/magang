@@ -12,7 +12,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-                $user = Auth::user();
+        $user = Auth::user();
         $instruktur = $user->instruktur;
 
         if (!$instruktur) {
@@ -118,7 +118,7 @@ class DashboardController extends Controller
                 'materi.kategori',
                 'materi.learning_points',
                 DB::raw('COUNT(DISTINCT progress.id_user) as jumlah_peserta'),
-                DB::raw('COUNT(DISTINCT CASE WHEN progress.progres = "sertif" THEN progress.id_user END) as jumlah_lulus')
+                DB::raw("COUNT(DISTINCT CASE WHEN progress.progres = 'sertif' THEN progress.id_user END) as jumlah_lulus")
             )
             ->groupBy('materi.id', 'materi.judul', 'materi.kategori', 'materi.learning_points')
             ->orderBy('jumlah_peserta', 'desc')

@@ -63,7 +63,7 @@ class MateriController extends Controller
         DB::transaction(function () use ($request, $data) {
             $materi = Materi::create($data + [
                 'id_instruktur' => $this->idInstrukturSaya(),
-                'slug'          => $this->slugUnik($data['judul']),
+                'slug'          => Materi::slugUnik($data['judul']),
             ]);
 
             $this->simpanLampiran($materi, $request);
@@ -104,7 +104,7 @@ class MateriController extends Controller
             // Slug cuma diganti kalau judulnya berubah, biar link
             // yang udah disebar ke peserta nggak tiba-tiba mati.
             if ($materi->judul !== $data['judul']) {
-                $data['slug'] = $this->slugUnik($data['judul'], $materi->id);
+                $data['slug'] = Materi::slugUnik($data['judul'], $materi->id);
             }
 
             $materi->update($data);
@@ -300,22 +300,5 @@ class MateriController extends Controller
                 'picture'   => trim($url),
             ]);
         }
-    }
-
-    private function slugUnik(string $judul, $abaikanId = null): string
-    {
-        $dasar = Str::slug($judul) ?: 'materi';
-        $slug  = $dasar;
-        $n     = 2;
-
-        while (
-            Materi::where('slug', $slug)
-                ->when($abaikanId, fn ($q) => $q->where('id', '!=', $abaikanId))
-                ->exists()
-        ) {
-            $slug = $dasar . '-' . $n++;
-        }
-
-        return $slug;
     }
 }
